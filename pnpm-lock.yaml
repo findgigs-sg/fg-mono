@@ -285,6 +285,9 @@ importers:
       '@trpc/tanstack-react-query':
         specifier: 'catalog:'
         version: 11.16.0(@tanstack/react-query@5.96.2(react@19.2.0))(@trpc/client@11.16.0(@trpc/server@11.16.0(typescript@5.9.3))(typescript@5.9.3))(@trpc/server@11.16.0(typescript@5.9.3))(react@19.2.0)(typescript@5.9.3)
+      '@vercel/config':
+        specifier: ^0.1.0
+        version: 0.1.0
       better-auth:
         specifier: 'catalog:'
         version: 1.4.0-beta.9(better-sqlite3@12.8.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -4361,6 +4364,10 @@ packages:
     peerDependencies:
       typescript: ^4.0.0 || ^5.0.0
 
+  '@vercel/config@0.1.0':
+    resolution: {integrity: sha512-fZSW+xYGgKnptVTRBlk6aUBEkEQNGufPqxMMKZ66EKPGkTvPBmcjxEVBny6ugoAdnIsfmbMd8mxH1C/ANKXfkQ==}
+    hasBin: true
+
   '@vercel/detect-agent@1.2.1':
     resolution: {integrity: sha512-U/BJCltQSTFTHwaiCQQTQG3GonTbRoEewjV+OU2mMjcHLAoPOh6CP1SXA2XNmqiqI3c82nkRNJ7piZ14RqmTXw==}
     engines: {node: '>=14'}
@@ -4435,6 +4442,9 @@ packages:
 
   '@vercel/remix-builder@5.7.2':
     resolution: {integrity: sha512-bfStsDBQramYbWugelfyp1szTuDOLQ+ZELvgA9cpYc4FucgCrDy/bpvMMvsjiDACB9PoDzLrG//ZBgsic9yAhg==}
+
+  '@vercel/routing-utils@6.1.1':
+    resolution: {integrity: sha512-kUJn6CRuLvua5xvDZTJu1rC8GLdniC8D5VIzoJKm0dUdcUxv3LEx+pi8dokxWS+YM7cIs1Z3Y8ms/BDW1iBzzA==}
 
   '@vercel/ruby@2.3.2':
     resolution: {integrity: sha512-okIgMmPEePyDR9TZYaKM4oftcxVHM5Dbdl7V/tIdh3lq8MGLi7HR5vvQglmZUwZOeovE6MVtezxl960EOzeIiQ==}
@@ -7564,6 +7574,10 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
 
+  pretty-cache-header@1.0.0:
+    resolution: {integrity: sha512-xtXazslu25CdnGnUkByU1RoOjK55TqwatJkjjJLg5ZAdz2Lngko/mmaUgeET36P2GMlNwh3fdM7FWBO717pNcw==}
+    engines: {node: '>=12.13'}
+
   pretty-format@29.7.0:
     resolution: {integrity: sha512-Pdlw/oPxN+aXdmM9R00JVC9WVFoCLTKJvDVLgmJ+qAffBMxsV85l/Lu7sNx4zSzPyoL2euImuEwHhOXdEgNFZQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -8365,6 +8379,10 @@ packages:
   time-span@4.0.0:
     resolution: {integrity: sha512-MyqZCTGLDZ77u4k+jqg4UlrzPTPZ49NDlaekU6uuFaJLzPIN1woaRXCbGeqOfxwc3Y37ZROGAJ614Rdv7Olt+g==}
     engines: {node: '>=10'}
+
+  timestring@6.0.0:
+    resolution: {integrity: sha512-wMctrWD2HZZLuIlchlkE2dfXJh7J2KDI9Dwl+2abPYg0mswQHfOAyQW3jJg1pY5VfttSINZuKcXoB3FGypVklA==}
+    engines: {node: '>=8'}
 
   tiny-invariant@1.3.3:
     resolution: {integrity: sha512-+FbBPE1o9QAYvviau/qC5SE3caw21q3xkvWKBtja5vgqOWIHHJ3ioaq1VPfn/Szqctz2bU/oYeKd9/z5BL+PVg==}
@@ -12886,6 +12904,12 @@ snapshots:
       - rollup
       - supports-color
 
+  '@vercel/config@0.1.0':
+    dependencies:
+      '@vercel/routing-utils': 6.1.1
+      pretty-cache-header: 1.0.0
+      zod: 3.25.76
+
   '@vercel/detect-agent@1.2.1': {}
 
   '@vercel/elysia@0.1.58(rollup@4.60.1)':
@@ -13114,6 +13138,13 @@ snapshots:
       - encoding
       - rollup
       - supports-color
+
+  '@vercel/routing-utils@6.1.1':
+    dependencies:
+      path-to-regexp: 6.1.0
+      path-to-regexp-updated: path-to-regexp@6.3.0
+    optionalDependencies:
+      ajv: 6.14.0
 
   '@vercel/ruby@2.3.2': {}
 
@@ -16537,6 +16568,10 @@ snapshots:
 
   prettier@3.8.1: {}
 
+  pretty-cache-header@1.0.0:
+    dependencies:
+      timestring: 6.0.0
+
   pretty-format@29.7.0:
     dependencies:
       '@jest/schemas': 29.6.3
@@ -17514,6 +17549,8 @@ snapshots:
   time-span@4.0.0:
     dependencies:
       convert-hrtime: 3.0.0
+
+  timestring@6.0.0: {}
 
   tiny-invariant@1.3.3: {}
 
