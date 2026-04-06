@@ -1,5 +1,5 @@
 {
-  "name": "@acme/tsconfig",
+  "name": "@findgigs/tsconfig",
   "private": true,
   "files": [
     "*.json"
