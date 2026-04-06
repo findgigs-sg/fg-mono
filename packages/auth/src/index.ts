@@ -28,6 +28,9 @@ export function initAuth<
       expo(),
       ...(options.extraPlugins ?? []),
     ],
+    emailAndPassword: {
+      enabled: true,
+    },
     socialProviders: {},
     trustedOrigins: ["expo://"],
     onAPIError: {
