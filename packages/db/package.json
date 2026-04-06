@@ -40,6 +40,7 @@
     "@findgigs/eslint-config": "workspace:*",
     "@findgigs/prettier-config": "workspace:*",
     "@findgigs/tsconfig": "workspace:*",
+    "@types/node": "catalog:",
     "drizzle-kit": "^0.31.5",
     "eslint": "catalog:",
     "prettier": "catalog:",

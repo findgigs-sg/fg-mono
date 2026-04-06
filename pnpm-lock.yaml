@@ -37,7 +37,7 @@ catalogs:
       specifier: ^11.7.1
       version: 11.16.0
     '@types/node':
-      specifier: ^22.18.12
+      specifier: 22.19.17
       version: 22.19.17
     '@vitejs/plugin-react':
       specifier: 5.1.0
@@ -454,6 +454,9 @@ importers:
       '@findgigs/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/typescript
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.19.17
       drizzle-kit:
         specifier: ^0.31.5
         version: 0.31.10
