@@ -13,8 +13,6 @@ export function initAuth<
   productionUrl: string;
   secret: string | undefined;
 
-  discordClientId: string;
-  discordClientSecret: string;
   extraPlugins?: TExtraPlugins;
 }) {
   const config = {
@@ -30,13 +28,7 @@ export function initAuth<
       expo(),
       ...(options.extraPlugins ?? []),
     ],
-    socialProviders: {
-      discord: {
-        clientId: options.discordClientId,
-        clientSecret: options.discordClientSecret,
-        redirectURI: `${options.productionUrl}/api/auth/callback/discord`,
-      },
-    },
+    socialProviders: {},
     trustedOrigins: ["expo://"],
     onAPIError: {
       onError(error, ctx) {
