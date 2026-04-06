@@ -42,8 +42,7 @@
   },
   "prettier": "@findgigs/prettier-config",
   "lint-staged": {
-    "*.{ts,tsx}": [
-      "eslint --fix",
+    "*.{ts,tsx,js,mjs,mts}": [
       "prettier --write"
     ],
     "*.{json,md}": [
