@@ -1,0 +1,8 @@
+{
+  "enabledPlugins": {
+    "vercel@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": true,
+    "supabase@claude-plugins-official": true,
+    "linear@claude-plugins-official": true
+  }
+}
