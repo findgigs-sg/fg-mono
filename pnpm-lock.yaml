@@ -275,7 +275,7 @@ importers:
         version: 1.4.0-beta.9(better-sqlite3@12.8.0)(react-dom@19.1.4(react@19.1.4))(react@19.1.4)
       nitro:
         specifier: 3.0.1-alpha.1
-        version: 3.0.1-alpha.1(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)(better-sqlite3@12.8.0)(chokidar@5.0.0)(drizzle-orm@0.44.7(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.13)(@types/pg@8.11.6)(@vercel/postgres@0.10.0)(better-sqlite3@12.8.0)(kysely@0.28.15)(prisma@5.22.0))(lru-cache@11.3.0)(rollup@4.60.1)(vite@7.1.12(@types/node@22.19.17)(jiti@2.6.1)(lightningcss@1.30.1)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))
+        version: 3.0.1-alpha.1(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)(better-sqlite3@12.8.0)(chokidar@5.0.0)(drizzle-orm@0.44.7(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.13)(@types/pg@8.11.6)(@vercel/postgres@0.10.0)(better-sqlite3@12.8.0)(kysely@0.28.15)(postgres@3.4.9)(prisma@5.22.0))(lru-cache@11.3.0)(rollup@4.60.1)(vite@7.1.12(@types/node@22.19.17)(jiti@2.6.1)(lightningcss@1.30.1)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))
       react:
         specifier: catalog:react19
         version: 19.1.4
@@ -395,7 +395,7 @@ importers:
     devDependencies:
       '@better-auth/cli':
         specifier: 'catalog:'
-        version: 1.4.0-beta.9(@neondatabase/serverless@0.9.5)(@types/pg@8.11.6)(@types/react@19.1.17)(@vercel/postgres@0.10.0)(kysely@0.28.15)(react-dom@19.1.4(react@19.1.4))(react@19.1.4)
+        version: 1.4.0-beta.9(@neondatabase/serverless@0.9.5)(@types/pg@8.11.6)(@types/react@19.1.17)(@vercel/postgres@0.10.0)(kysely@0.28.15)(postgres@3.4.9)(react-dom@19.1.4(react@19.1.4))(react@19.1.4)
       '@findgigs/eslint-config':
         specifier: workspace:*
         version: link:../../tooling/eslint
@@ -417,15 +417,15 @@ importers:
 
   packages/db:
     dependencies:
-      '@vercel/postgres':
-        specifier: ^0.10.0
-        version: 0.10.0
       drizzle-orm:
         specifier: ^0.44.7
-        version: 0.44.7(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.13)(@types/pg@8.11.6)(@vercel/postgres@0.10.0)(better-sqlite3@12.8.0)(kysely@0.28.15)(prisma@5.22.0)
+        version: 0.44.7(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.13)(@types/pg@8.11.6)(@vercel/postgres@0.10.0)(better-sqlite3@12.8.0)(kysely@0.28.15)(postgres@3.4.9)(prisma@5.22.0)
       drizzle-zod:
         specifier: ^0.8.3
-        version: 0.8.3(drizzle-orm@0.44.7(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.13)(@types/pg@8.11.6)(@vercel/postgres@0.10.0)(better-sqlite3@12.8.0)(kysely@0.28.15)(prisma@5.22.0))(zod@4.3.6)
+        version: 0.8.3(drizzle-orm@0.44.7(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.13)(@types/pg@8.11.6)(@vercel/postgres@0.10.0)(better-sqlite3@12.8.0)(kysely@0.28.15)(postgres@3.4.9)(prisma@5.22.0))(zod@4.3.6)
+      postgres:
+        specifier: ^3.4.9
+        version: 3.4.9
       zod:
         specifier: 'catalog:'
         version: 4.3.6
@@ -6490,6 +6490,10 @@ packages:
   postgres-range@1.1.4:
     resolution: {integrity: sha512-i/hbxIE9803Alj/6ytL7UHQxRvZkI9O4Sy+J3HGc4F4oo/2eQAjTSNJ0bfxyse3bH0nuVesCk+3IRLaMtG3H6w==}
 
+  postgres@3.4.9:
+    resolution: {integrity: sha512-GD3qdB0x1z9xgFI6cdRD6xu2Sp2WCOEoe3mtnyB5Ee0XrrL5Pe+e4CCnJrRMnL1zYtRDZmQQVbvOttLnKDLnaw==}
+    engines: {node: '>=12'}
+
   prebuild-install@7.1.3:
     resolution: {integrity: sha512-8Mf2cbV7x1cXPUILADGI3wuhfqWvtiLA1iclTDbFRZkgRQS0NqsPZphna9V+HyTEadheuPmjaJMsbzKQFOzLug==}
     engines: {node: '>=10'}
@@ -8418,7 +8422,7 @@ snapshots:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.28.5
 
-  '@better-auth/cli@1.4.0-beta.9(@neondatabase/serverless@0.9.5)(@types/pg@8.11.6)(@types/react@19.1.17)(@vercel/postgres@0.10.0)(kysely@0.28.15)(react-dom@19.1.4(react@19.1.4))(react@19.1.4)':
+  '@better-auth/cli@1.4.0-beta.9(@neondatabase/serverless@0.9.5)(@types/pg@8.11.6)(@types/react@19.1.17)(@vercel/postgres@0.10.0)(kysely@0.28.15)(postgres@3.4.9)(react-dom@19.1.4(react@19.1.4))(react@19.1.4)':
     dependencies:
       '@babel/core': 7.29.0
       '@babel/preset-react': 7.28.5(@babel/core@7.29.0)
@@ -8435,7 +8439,7 @@ snapshots:
       chalk: 5.6.2
       commander: 12.1.0
       dotenv: 17.4.1
-      drizzle-orm: 0.33.0(@neondatabase/serverless@0.9.5)(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.13)(@types/pg@8.11.6)(@types/react@19.1.17)(@vercel/postgres@0.10.0)(better-sqlite3@12.8.0)(kysely@0.28.15)(prisma@5.22.0)(react@19.1.4)
+      drizzle-orm: 0.33.0(@neondatabase/serverless@0.9.5)(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.13)(@types/pg@8.11.6)(@types/react@19.1.17)(@vercel/postgres@0.10.0)(better-sqlite3@12.8.0)(kysely@0.28.15)(postgres@3.4.9)(prisma@5.22.0)(react@19.1.4)
       get-tsconfig: 4.13.7
       jiti: 2.6.1
       open: 10.2.0
@@ -9426,6 +9430,7 @@ snapshots:
   '@neondatabase/serverless@0.9.5':
     dependencies:
       '@types/pg': 8.11.6
+    optional: true
 
   '@next/eslint-plugin-next@16.2.2':
     dependencies:
@@ -11184,6 +11189,7 @@ snapshots:
       '@types/node': 25.5.2
       pg-protocol: 1.13.0
       pg-types: 4.1.0
+    optional: true
 
   '@types/prompts@2.4.9':
     dependencies:
@@ -11318,6 +11324,7 @@ snapshots:
       ws: 8.20.0(bufferutil@4.1.0)
     transitivePeerDependencies:
       - utf-8-validate
+    optional: true
 
   '@vitejs/plugin-react@5.1.0(vite@7.1.12(@types/node@22.19.17)(jiti@2.6.1)(lightningcss@1.30.1)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))':
     dependencies:
@@ -11761,6 +11768,7 @@ snapshots:
   bufferutil@4.1.0:
     dependencies:
       node-gyp-build: 4.8.4
+    optional: true
 
   bundle-name@4.1.0:
     dependencies:
@@ -12045,10 +12053,10 @@ snapshots:
       es-errors: 1.3.0
       is-data-view: 1.0.2
 
-  db0@0.3.4(better-sqlite3@12.8.0)(drizzle-orm@0.44.7(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.13)(@types/pg@8.11.6)(@vercel/postgres@0.10.0)(better-sqlite3@12.8.0)(kysely@0.28.15)(prisma@5.22.0)):
+  db0@0.3.4(better-sqlite3@12.8.0)(drizzle-orm@0.44.7(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.13)(@types/pg@8.11.6)(@vercel/postgres@0.10.0)(better-sqlite3@12.8.0)(kysely@0.28.15)(postgres@3.4.9)(prisma@5.22.0)):
     optionalDependencies:
       better-sqlite3: 12.8.0
-      drizzle-orm: 0.44.7(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.13)(@types/pg@8.11.6)(@vercel/postgres@0.10.0)(better-sqlite3@12.8.0)(kysely@0.28.15)(prisma@5.22.0)
+      drizzle-orm: 0.44.7(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.13)(@types/pg@8.11.6)(@vercel/postgres@0.10.0)(better-sqlite3@12.8.0)(kysely@0.28.15)(postgres@3.4.9)(prisma@5.22.0)
 
   debug@2.6.9:
     dependencies:
@@ -12163,7 +12171,7 @@ snapshots:
       esbuild: 0.25.12
       tsx: 4.21.0
 
-  drizzle-orm@0.33.0(@neondatabase/serverless@0.9.5)(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.13)(@types/pg@8.11.6)(@types/react@19.1.17)(@vercel/postgres@0.10.0)(better-sqlite3@12.8.0)(kysely@0.28.15)(prisma@5.22.0)(react@19.1.4):
+  drizzle-orm@0.33.0(@neondatabase/serverless@0.9.5)(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.13)(@types/pg@8.11.6)(@types/react@19.1.17)(@vercel/postgres@0.10.0)(better-sqlite3@12.8.0)(kysely@0.28.15)(postgres@3.4.9)(prisma@5.22.0)(react@19.1.4):
     optionalDependencies:
       '@neondatabase/serverless': 0.9.5
       '@prisma/client': 5.22.0(prisma@5.22.0)
@@ -12173,10 +12181,11 @@ snapshots:
       '@vercel/postgres': 0.10.0
       better-sqlite3: 12.8.0
       kysely: 0.28.15
+      postgres: 3.4.9
       prisma: 5.22.0
       react: 19.1.4
 
-  drizzle-orm@0.44.7(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.13)(@types/pg@8.11.6)(@vercel/postgres@0.10.0)(better-sqlite3@12.8.0)(kysely@0.28.15)(prisma@5.22.0):
+  drizzle-orm@0.44.7(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.13)(@types/pg@8.11.6)(@vercel/postgres@0.10.0)(better-sqlite3@12.8.0)(kysely@0.28.15)(postgres@3.4.9)(prisma@5.22.0):
     optionalDependencies:
       '@prisma/client': 5.22.0(prisma@5.22.0)
       '@types/better-sqlite3': 7.6.13
@@ -12184,11 +12193,12 @@ snapshots:
       '@vercel/postgres': 0.10.0
       better-sqlite3: 12.8.0
       kysely: 0.28.15
+      postgres: 3.4.9
       prisma: 5.22.0
 
-  drizzle-zod@0.8.3(drizzle-orm@0.44.7(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.13)(@types/pg@8.11.6)(@vercel/postgres@0.10.0)(better-sqlite3@12.8.0)(kysely@0.28.15)(prisma@5.22.0))(zod@4.3.6):
+  drizzle-zod@0.8.3(drizzle-orm@0.44.7(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.13)(@types/pg@8.11.6)(@vercel/postgres@0.10.0)(better-sqlite3@12.8.0)(kysely@0.28.15)(postgres@3.4.9)(prisma@5.22.0))(zod@4.3.6):
     dependencies:
-      drizzle-orm: 0.44.7(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.13)(@types/pg@8.11.6)(@vercel/postgres@0.10.0)(better-sqlite3@12.8.0)(kysely@0.28.15)(prisma@5.22.0)
+      drizzle-orm: 0.44.7(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.13)(@types/pg@8.11.6)(@vercel/postgres@0.10.0)(better-sqlite3@12.8.0)(kysely@0.28.15)(postgres@3.4.9)(prisma@5.22.0)
       zod: 4.3.6
 
   dunder-proto@1.0.1:
@@ -13991,11 +14001,11 @@ snapshots:
 
   nf3@0.1.12: {}
 
-  nitro@3.0.1-alpha.1(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)(better-sqlite3@12.8.0)(chokidar@5.0.0)(drizzle-orm@0.44.7(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.13)(@types/pg@8.11.6)(@vercel/postgres@0.10.0)(better-sqlite3@12.8.0)(kysely@0.28.15)(prisma@5.22.0))(lru-cache@11.3.0)(rollup@4.60.1)(vite@7.1.12(@types/node@22.19.17)(jiti@2.6.1)(lightningcss@1.30.1)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3)):
+  nitro@3.0.1-alpha.1(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)(better-sqlite3@12.8.0)(chokidar@5.0.0)(drizzle-orm@0.44.7(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.13)(@types/pg@8.11.6)(@vercel/postgres@0.10.0)(better-sqlite3@12.8.0)(kysely@0.28.15)(postgres@3.4.9)(prisma@5.22.0))(lru-cache@11.3.0)(rollup@4.60.1)(vite@7.1.12(@types/node@22.19.17)(jiti@2.6.1)(lightningcss@1.30.1)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3)):
     dependencies:
       consola: 3.4.2
       crossws: 0.4.4(srvx@0.9.8)
-      db0: 0.3.4(better-sqlite3@12.8.0)(drizzle-orm@0.44.7(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.13)(@types/pg@8.11.6)(@vercel/postgres@0.10.0)(better-sqlite3@12.8.0)(kysely@0.28.15)(prisma@5.22.0))
+      db0: 0.3.4(better-sqlite3@12.8.0)(drizzle-orm@0.44.7(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.13)(@types/pg@8.11.6)(@vercel/postgres@0.10.0)(better-sqlite3@12.8.0)(kysely@0.28.15)(postgres@3.4.9)(prisma@5.22.0))
       h3: 2.0.1-rc.5(crossws@0.4.4(srvx@0.9.8))
       jiti: 2.6.1
       nf3: 0.1.12
@@ -14006,7 +14016,7 @@ snapshots:
       srvx: 0.9.8
       undici: 7.24.7
       unenv: 2.0.0-rc.24
-      unstorage: 2.0.0-alpha.7(chokidar@5.0.0)(db0@0.3.4(better-sqlite3@12.8.0)(drizzle-orm@0.44.7(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.13)(@types/pg@8.11.6)(@vercel/postgres@0.10.0)(better-sqlite3@12.8.0)(kysely@0.28.15)(prisma@5.22.0)))(lru-cache@11.3.0)(ofetch@2.0.0-alpha.3)
+      unstorage: 2.0.0-alpha.7(chokidar@5.0.0)(db0@0.3.4(better-sqlite3@12.8.0)(drizzle-orm@0.44.7(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.13)(@types/pg@8.11.6)(@vercel/postgres@0.10.0)(better-sqlite3@12.8.0)(kysely@0.28.15)(postgres@3.4.9)(prisma@5.22.0)))(lru-cache@11.3.0)(ofetch@2.0.0-alpha.3)
     optionalDependencies:
       rollup: 4.60.1
       vite: 7.1.12(@types/node@22.19.17)(jiti@2.6.1)(lightningcss@1.30.1)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3)
@@ -14054,7 +14064,8 @@ snapshots:
 
   node-forge@1.4.0: {}
 
-  node-gyp-build@4.8.4: {}
+  node-gyp-build@4.8.4:
+    optional: true
 
   node-int64@0.4.0: {}
 
@@ -14125,7 +14136,8 @@ snapshots:
       define-properties: 1.2.1
       es-object-atoms: 1.1.1
 
-  obuf@1.1.2: {}
+  obuf@1.1.2:
+    optional: true
 
   ofetch@2.0.0-alpha.3: {}
 
@@ -14291,11 +14303,14 @@ snapshots:
 
   perfect-debounce@2.1.0: {}
 
-  pg-int8@1.0.1: {}
+  pg-int8@1.0.1:
+    optional: true
 
-  pg-numeric@1.0.2: {}
+  pg-numeric@1.0.2:
+    optional: true
 
-  pg-protocol@1.13.0: {}
+  pg-protocol@1.13.0:
+    optional: true
 
   pg-types@4.1.0:
     dependencies:
@@ -14306,6 +14321,7 @@ snapshots:
       postgres-date: 2.1.0
       postgres-interval: 3.0.0
       postgres-range: 1.1.4
+    optional: true
 
   picocolors@1.1.1: {}
 
@@ -14345,17 +14361,24 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  postgres-array@3.0.4: {}
+  postgres-array@3.0.4:
+    optional: true
 
   postgres-bytea@3.0.0:
     dependencies:
       obuf: 1.1.2
+    optional: true
 
-  postgres-date@2.1.0: {}
+  postgres-date@2.1.0:
+    optional: true
 
-  postgres-interval@3.0.0: {}
+  postgres-interval@3.0.0:
+    optional: true
 
-  postgres-range@1.1.4: {}
+  postgres-range@1.1.4:
+    optional: true
+
+  postgres@3.4.9: {}
 
   prebuild-install@7.1.3:
     dependencies:
@@ -15397,10 +15420,10 @@ snapshots:
       picomatch: 4.0.4
       webpack-virtual-modules: 0.6.2
 
-  unstorage@2.0.0-alpha.7(chokidar@5.0.0)(db0@0.3.4(better-sqlite3@12.8.0)(drizzle-orm@0.44.7(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.13)(@types/pg@8.11.6)(@vercel/postgres@0.10.0)(better-sqlite3@12.8.0)(kysely@0.28.15)(prisma@5.22.0)))(lru-cache@11.3.0)(ofetch@2.0.0-alpha.3):
+  unstorage@2.0.0-alpha.7(chokidar@5.0.0)(db0@0.3.4(better-sqlite3@12.8.0)(drizzle-orm@0.44.7(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.13)(@types/pg@8.11.6)(@vercel/postgres@0.10.0)(better-sqlite3@12.8.0)(kysely@0.28.15)(postgres@3.4.9)(prisma@5.22.0)))(lru-cache@11.3.0)(ofetch@2.0.0-alpha.3):
     optionalDependencies:
       chokidar: 5.0.0
-      db0: 0.3.4(better-sqlite3@12.8.0)(drizzle-orm@0.44.7(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.13)(@types/pg@8.11.6)(@vercel/postgres@0.10.0)(better-sqlite3@12.8.0)(kysely@0.28.15)(prisma@5.22.0))
+      db0: 0.3.4(better-sqlite3@12.8.0)(drizzle-orm@0.44.7(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.13)(@types/pg@8.11.6)(@vercel/postgres@0.10.0)(better-sqlite3@12.8.0)(kysely@0.28.15)(postgres@3.4.9)(prisma@5.22.0))
       lru-cache: 11.3.0
       ofetch: 2.0.0-alpha.3
 
