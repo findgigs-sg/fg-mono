@@ -1,29 +1,14 @@
-import { useNavigate } from "@tanstack/react-router";
-
 import { Button } from "@findgigs/ui/button";
 
 import { authClient } from "~/auth/client";
 
 export function AuthShowcase() {
   const { data: session } = authClient.useSession();
-  const navigate = useNavigate();
 
   if (!session) {
     return (
-      <Button
-        size="lg"
-        onClick={async () => {
-          const res = await authClient.signIn.social({
-            provider: "discord",
-            callbackURL: "/",
-          });
-          if (!res.data?.url) {
-            throw new Error("No URL returned from signInSocial");
-          }
-          await navigate({ href: res.data.url, replace: true });
-        }}
-      >
-        Sign in with Discord
+      <Button size="lg" disabled>
+        Sign in (coming soon)
       </Button>
     );
   }
@@ -38,7 +23,7 @@ export function AuthShowcase() {
         size="lg"
         onClick={async () => {
           await authClient.signOut();
-          await navigate({ href: "/", replace: true });
+          window.location.href = "/";
         }}
       >
         Sign out
