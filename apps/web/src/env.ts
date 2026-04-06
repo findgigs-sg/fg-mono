@@ -32,5 +32,6 @@ export const env = createEnv({
    */
   runtimeEnv: process.env,
   skipValidation:
-    !!process.env.CI || process.env.npm_lifecycle_event === "lint",
+    process.env.GITHUB_ACTIONS === "true" ||
+    process.env.npm_lifecycle_event === "lint",
 });
