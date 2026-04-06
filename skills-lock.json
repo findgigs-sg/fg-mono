@@ -5,6 +5,11 @@
       "source": "vercel/turborepo",
       "sourceType": "github",
       "computedHash": "035d42c361c005fbc6be52466271d9918dd68db8e39b43824597da060cb2e28e"
+    },
+    "vercel-cli-with-tokens": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "computedHash": "1e1ef4ae4ad838d0ad5f93a659bf065475705cd552bd3c9a2a4faade6098b030"
     }
   }
 }
