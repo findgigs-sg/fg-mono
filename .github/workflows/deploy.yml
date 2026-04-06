@@ -55,6 +55,10 @@ jobs:
       - name: Setup
         uses: ./tooling/github/setup
 
+      - name: Install Vercel CLI
+        shell: bash
+        run: pnpm add -g vercel
+
       - name: Pull Vercel env
         run: vercel env pull .env --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
         env:
