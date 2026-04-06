@@ -57,3 +57,6 @@ dist/
 
 # tanstack
 .tanstack
+
+# vercel
+.vercel
