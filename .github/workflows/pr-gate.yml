@@ -1,10 +1,8 @@
-name: CI
+name: PR Gate
 
 on:
   pull_request:
     branches: ["*"]
-  push:
-    branches: ["main"]
   merge_group:
 
 concurrency:
@@ -55,6 +53,21 @@ jobs:
 
       - name: Typecheck
         run: pnpm typecheck
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Setup
+        uses: ./tooling/github/setup
+
+      - name: Copy env
+        shell: bash
+        run: cp .env.example .env
+
+      - name: Build
+        run: pnpm build
 
   test:
     runs-on: ubuntu-latest
