@@ -9,3 +9,6 @@ export const appRouter = createTRPCRouter({
 
 // export type definition of API
 export type AppRouter = typeof appRouter;
+
+// intentional type error to test CI gates
+const broken: number = "this is not a number";
