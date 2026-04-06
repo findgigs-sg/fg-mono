@@ -10,6 +10,7 @@
     "format": "prettier --check . --ignore-path ../../.gitignore --ignore-path .prettierignore",
     "lint": "eslint --flag unstable_native_nodejs_ts_config",
     "typecheck": "tsc --noEmit",
+    "test": "vitest run",
     "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
