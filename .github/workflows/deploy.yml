@@ -55,14 +55,14 @@ jobs:
       - name: Setup
         uses: ./tooling/github/setup
 
-      - name: Pull Vercel env
-        run: pnpm exec vercel env pull .env --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Pull Vercel project settings and env
+        run: pnpm exec vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
       - name: Validate env
-        run: pnpm dotenv -e .env -- tsx scripts/check-env.ts
+        run: pnpm dotenv -e .vercel/.env.production.local -- tsx scripts/check-env.ts
 
       - name: Build
         run: pnpm exec vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
