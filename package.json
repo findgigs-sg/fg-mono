@@ -11,6 +11,8 @@
     "clean": "git clean -xdf node_modules",
     "clean:workspaces": "turbo run clean",
     "auth:generate": "pnpm -F @findgigs/auth generate",
+    "db:generate": "turbo -F @findgigs/db generate",
+    "db:migrate": "turbo -F @findgigs/db migrate",
     "db:push": "turbo -F @findgigs/db push",
     "db:studio": "turbo -F @findgigs/db studio",
     "dev": "turbo watch dev --continue",
