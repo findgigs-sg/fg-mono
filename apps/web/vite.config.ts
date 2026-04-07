@@ -8,6 +8,7 @@ import tsConfigPaths from "vite-tsconfig-paths";
 export default defineConfig({
   server: {
     port: 3001,
+    allowedHosts: [".ts.net"],
   },
   plugins: [
     tsConfigPaths({

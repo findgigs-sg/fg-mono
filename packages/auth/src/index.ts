@@ -32,7 +32,7 @@ export function initAuth<
       enabled: true,
     },
     socialProviders: {},
-    trustedOrigins: ["expo://"],
+    trustedOrigins: ["expo://", "https://*.ts.net:3001"],
     onAPIError: {
       onError(error, ctx) {
         console.error("BETTER AUTH API ERROR", error, ctx);
