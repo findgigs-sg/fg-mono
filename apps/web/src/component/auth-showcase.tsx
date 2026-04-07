@@ -73,6 +73,27 @@ export function AuthShowcase() {
             ? "Already have an account? Sign in"
             : "Need an account? Sign up"}
         </button>
+        <div className="flex w-full items-center gap-2">
+          <div className="bg-border h-px flex-1" />
+          <span className="text-muted-foreground text-xs">or</span>
+          <div className="bg-border h-px flex-1" />
+        </div>
+        <Button
+          size="lg"
+          variant="outline"
+          className="w-full"
+          onClick={() => authClient.signIn.social({ provider: "google" })}
+        >
+          Sign in with Google
+        </Button>
+        <Button
+          size="lg"
+          variant="outline"
+          className="w-full"
+          onClick={() => authClient.signIn.social({ provider: "apple" })}
+        >
+          Sign in with Apple
+        </Button>
       </div>
     );
   }
