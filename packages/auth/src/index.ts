@@ -6,6 +6,8 @@ import { oAuthProxy } from "better-auth/plugins";
 
 import { db } from "@findgigs/db/client";
 
+import { authEnv } from "../env";
+
 export function initAuth<
   TExtraPlugins extends BetterAuthPlugin[] = [],
 >(options: {
@@ -15,6 +17,8 @@ export function initAuth<
 
   extraPlugins?: TExtraPlugins;
 }) {
+  const env = authEnv();
+
   const config = {
     database: drizzleAdapter(db, {
       provider: "pg",
@@ -31,7 +35,27 @@ export function initAuth<
     emailAndPassword: {
       enabled: true,
     },
-    socialProviders: {},
+    socialProviders: {
+      ...(env.GOOGLE_CLIENT_ID && env.GOOGLE_CLIENT_SECRET
+        ? {
+            google: {
+              clientId: env.GOOGLE_CLIENT_ID,
+              clientSecret: env.GOOGLE_CLIENT_SECRET,
+            },
+          }
+        : {}),
+      ...(env.APPLE_CLIENT_ID && env.APPLE_CLIENT_SECRET
+        ? {
+            apple: {
+              clientId: env.APPLE_CLIENT_ID,
+              clientSecret: env.APPLE_CLIENT_SECRET,
+              ...(env.APPLE_APP_BUNDLE_ID
+                ? { appBundleIdentifier: env.APPLE_APP_BUNDLE_ID }
+                : {}),
+            },
+          }
+        : {}),
+    },
     trustedOrigins: ["expo://", "https://*.ts.net:3001"],
     onAPIError: {
       onError(error, ctx) {

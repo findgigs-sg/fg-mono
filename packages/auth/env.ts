@@ -9,6 +9,13 @@ export function authEnv() {
           ? z.string().min(1)
           : z.string().min(1).optional(),
       NODE_ENV: z.enum(["development", "production"]).optional(),
+      // Google OAuth
+      GOOGLE_CLIENT_ID: z.string().min(1).optional(),
+      GOOGLE_CLIENT_SECRET: z.string().min(1).optional(),
+      // Apple Sign-In
+      APPLE_CLIENT_ID: z.string().min(1).optional(),
+      APPLE_CLIENT_SECRET: z.string().min(1).optional(),
+      APPLE_APP_BUNDLE_ID: z.string().min(1).optional(),
     },
     runtimeEnv: process.env,
     skipValidation:
