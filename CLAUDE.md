@@ -24,6 +24,11 @@ pnpm db:migrate             # Apply migrations
 pnpm db:studio              # Open Drizzle Studio
 pnpm auth:generate          # Regenerate Better Auth schema
 
+# Dev tunnel (Tailscale Funnel)
+pnpm dev:tunnel             # Start dev server + tunnel (auto-stops on exit)
+pnpm tunnel                 # Start tunnel only (localhost:3001)
+pnpm tunnel:stop            # Stop tunnel
+
 # Run a single package
 pnpm -F @findgigs/web dev   # Web only
 pnpm -F @findgigs/db push   # DB push only
@@ -36,7 +41,7 @@ pnpm -F @findgigs/db push   # DB push only
 - `apps/web` — TanStack Start (Vite + React 19 + Nitro) with file-based routing
 - `apps/mobile` — Expo SDK 55 (React Native) with Expo Router
 - `packages/api` — tRPC v11 routers (shared between web and mobile)
-- `packages/auth` — Better Auth config (email/password, Drizzle adapter)
+- `packages/auth` — Better Auth config (email/password, Google OAuth, Apple Sign-In, Drizzle adapter)
 - `packages/db` — Drizzle ORM schema + client (Supabase Postgres)
 - `packages/ui` — Shared UI components (shadcn/ui for web, React Native Reusables for mobile)
 - `packages/validators` — Shared Zod schemas
@@ -66,6 +71,20 @@ pnpm -F @findgigs/db push   # DB push only
 - Unused variables must be prefixed with `_`.
 - Git hooks: Husky + lint-staged runs Prettier on commit.
 - UI components export individually for tree-shaking (e.g., `@findgigs/ui/button` not `@findgigs/ui`).
+
+## CI/CD
+
+- **PR Gate** (`pr-gate.yml`): lint, format, typecheck, build, test — all required to merge.
+- **Deploy** (`deploy.yml`): On push to main, path-filtered DB migrations + Vercel deploy.
+- **Vercel config** in `apps/web/vercel.ts`: framework `nitro`, region `sin1`, env validation in buildCommand.
+- **Branch protection**: Strict mode on `main`.
+
+## Deployment
+
+- **Production:** https://fg-mono-web.vercel.app
+- **Framework:** Nitro (TanStack Start uses Nitro under the hood)
+- **Region:** sin1 (Singapore)
+- **Auto-deploy on main:** Disabled — deploy workflow handles it via `vercel deploy --prod`
 
 <!-- VERCEL BEST PRACTICES START -->
 
