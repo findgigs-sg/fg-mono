@@ -24,10 +24,8 @@ pnpm db:migrate             # Apply migrations
 pnpm db:studio              # Open Drizzle Studio
 pnpm auth:generate          # Regenerate Better Auth schema
 
-# Dev tunnel (Tailscale Funnel)
-pnpm dev:tunnel             # Start dev server + tunnel (auto-stops on exit)
-pnpm tunnel                 # Start tunnel only (localhost:3001)
-pnpm tunnel:stop            # Stop tunnel
+# Dev tunnel (Tailscale Funnel — auto-stops on exit)
+pnpm dev:tunnel             # Start dev server + tunnel
 
 # Run a single package
 pnpm -F @findgigs/web dev   # Web only
