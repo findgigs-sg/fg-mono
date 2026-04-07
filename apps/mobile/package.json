@@ -11,6 +11,7 @@
     "ios": "expo run:ios",
     "format": "prettier --check . --ignore-path ../../.gitignore --ignore-path .prettierignore",
     "lint": "eslint --flag unstable_native_nodejs_ts_config",
+    "test": "jest --passWithNoTests",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -50,8 +51,11 @@
     "@findgigs/prettier-config": "workspace:*",
     "@findgigs/tailwind-config": "workspace:*",
     "@findgigs/tsconfig": "workspace:*",
+    "@types/jest": "^29.5.14",
     "@types/react": "catalog:react19",
     "eslint": "catalog:",
+    "jest": "^29.7.0",
+    "jest-expo": "^55.0.14",
     "prettier": "catalog:",
     "tailwindcss": "catalog:",
     "typescript": "catalog:"
