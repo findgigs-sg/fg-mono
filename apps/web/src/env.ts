@@ -22,7 +22,7 @@ export const env = createEnv({
 
   /**
    * Specify your client-side environment variables schema here.
-   * For them to be exposed to the client, prefix them with `NEXT_PUBLIC_`.
+   * For them to be exposed to the client, prefix them with `VITE_`.
    */
   client: {
     // NEXT_PUBLIC_CLIENTVAR: z.string(),
