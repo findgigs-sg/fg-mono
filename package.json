@@ -16,7 +16,7 @@
     "db:push": "turbo -F @findgigs/db push",
     "db:studio": "turbo -F @findgigs/db studio",
     "dev": "turbo watch dev --continue",
-    "dev:tunnel": "bash scripts/tunnel.sh && turbo watch dev --continue",
+    "dev:tunnel": "bash scripts/dev-tunnel.sh",
     "tunnel": "bash scripts/tunnel.sh",
     "tunnel:stop": "tailscale funnel --https=3001 off",
     "format": "turbo run format --continue -- --cache --cache-location .cache/.prettiercache",
