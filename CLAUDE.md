@@ -54,6 +54,8 @@ pnpm -F @findgigs/db push   # DB push only
 
 **Environment:** All env vars validated with `@t3-oss/env-core`. Raw `process.env` access is restricted by ESLint — use validated env files (`apps/web/src/env.ts`, `packages/auth/env.ts`).
 
+**Vercel CLI:** Token-based auth via `VERCEL_TOKEN` in root `.env` — do not use `vercel login`.
+
 **Imports:** Use `@findgigs/*` workspace aliases (e.g., `@findgigs/api`, `@findgigs/db/client`, `@findgigs/ui/button`). Within apps, use `~/` path alias for `./src/`.
 
 ## Code Conventions
