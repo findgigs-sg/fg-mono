@@ -1,4 +1,29 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(pnpm *)",
+      "Bash(npx *)",
+      "Bash(git *)",
+      "Bash(turbo *)",
+      "Bash(gh *)",
+      "Bash(ls *)",
+      "Bash(mkdir *)",
+      "Bash(docker *)",
+      "Bash(curl *)",
+      "Bash(cat *)",
+      "Bash(head *)",
+      "Bash(tail *)",
+      "Bash(vercel *)",
+      "Bash(supabase *)",
+      "Bash(node *)",
+      "Bash(tsx *)",
+      "Bash(wc *)",
+      "Bash(sort *)",
+      "Bash(grep *)",
+      "Edit",
+      "Write"
+    ]
+  },
   "enabledPlugins": {
     "vercel@claude-plugins-official": true,
     "superpowers@claude-plugins-official": true,
