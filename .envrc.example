@@ -1,1 +1,15 @@
-dotenv_if_exists .env
+# ──────────────────────────────────────────────
+# Agent & CLI tokens (NOT application env vars)
+# These are personal access tokens for AI agent (Claude Code)
+# and CLI tooling. They are NOT used by the app at runtime.
+# Each developer must generate their own tokens from the
+# linked dashboards below.
+#
+# Setup:
+#   1. Copy this file: cp .envrc.example .envrc
+#   2. Fill in your personal tokens
+#   3. Run: direnv allow
+# ──────────────────────────────────────────────
+export VERCEL_TOKEN=""             # vercel.com/account/tokens — Vercel CLI (deploys, env sync)
+export LINEAR_API_KEY=""           # linear.app/settings/api — Linear MCP server (issue tracking)
+export SUPABASE_TOKEN=""           # supabase.com/dashboard/account/tokens — Supabase MCP server (DB admin)

@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: findgigs-db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: findgigs
+    volumes:
+      - findgigs-data:/var/lib/postgresql/data
+
+volumes:
+  findgigs-data:
