@@ -23,7 +23,7 @@ export default function LoginScreen() {
         callbackURL: "/",
       });
       router.replace("/");
-    } catch (_error) {
+    } catch {
       Alert.alert(
         "Error",
         "Sign in was cancelled or failed. Please try again.",
@@ -51,7 +51,7 @@ export default function LoginScreen() {
           return;
         }
         router.replace("/");
-      } catch (_error) {
+      } catch {
         Alert.alert("Error", "Connection error, please try again.");
       } finally {
         setIsSubmitting(false);
@@ -147,7 +147,11 @@ export default function LoginScreen() {
           )}
         </form.Field>
 
-        <Button size="lg" onPress={form.handleSubmit} disabled={isSubmitting}>
+        <Button
+          size="lg"
+          onPress={() => form.handleSubmit()}
+          disabled={isSubmitting}
+        >
           <Text className="text-primary-foreground font-semibold">
             {isSubmitting ? "Logging In..." : "Log In"}
           </Text>

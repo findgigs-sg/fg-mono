@@ -23,7 +23,7 @@ export default function SignUpScreen() {
         callbackURL: "/role-select",
       });
       router.replace("/role-select");
-    } catch (_error) {
+    } catch {
       Alert.alert(
         "Error",
         "Sign in was cancelled or failed. Please try again.",
@@ -57,7 +57,7 @@ export default function SignUpScreen() {
           return;
         }
         router.replace("/role-select");
-      } catch (_error) {
+      } catch {
         Alert.alert("Error", "Connection error, please try again.");
       } finally {
         setIsSubmitting(false);
@@ -150,7 +150,11 @@ export default function SignUpScreen() {
           )}
         </form.Field>
 
-        <Button size="lg" onPress={form.handleSubmit} disabled={isSubmitting}>
+        <Button
+          size="lg"
+          onPress={() => form.handleSubmit()}
+          disabled={isSubmitting}
+        >
           <Text className="text-primary-foreground font-semibold">
             {isSubmitting ? "Creating Account..." : "Create Account"}
           </Text>

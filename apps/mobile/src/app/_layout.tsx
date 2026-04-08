@@ -24,7 +24,7 @@ function AuthGuard({ children }: { children: React.ReactNode }) {
     } else if (session && inAuthGroup) {
       router.replace("/");
     }
-  }, [session, isPending, segments]);
+  }, [session, isPending, segments, router]);
 
   if (isPending) {
     return (
