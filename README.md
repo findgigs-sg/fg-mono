@@ -81,18 +81,11 @@ See `.envrc.example` for token descriptions and where to generate them.
 
 ### 5. Database
 
-Start a local Postgres instance and create the database:
-
 ```bash
-docker run -d --name findgigs-db -e POSTGRES_PASSWORD=postgres -p 5432:5432 postgres:latest
-docker exec findgigs-db psql -U postgres -c "CREATE DATABASE findgigs;"
+./scripts/setup-db.sh
 ```
 
-Apply migrations to set up the schema:
-
-```bash
-pnpm db:migrate
-```
+This starts Postgres via Docker Compose, waits for it to be ready, and runs migrations.
 
 ### 6. Start development
 
