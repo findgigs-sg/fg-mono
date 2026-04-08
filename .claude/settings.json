@@ -21,7 +21,12 @@
       "Bash(sort *)",
       "Bash(grep *)",
       "Edit",
-      "Write"
+      "Write",
+      "mcp__linear-server__*",
+      "mcp__supabase__*",
+      "mcp__vercel__*",
+      "mcp__pencil__*",
+      "mcp__claude-in-chrome__*"
     ]
   },
   "enabledPlugins": {
