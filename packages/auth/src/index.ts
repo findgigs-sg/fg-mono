@@ -35,6 +35,11 @@ export function initAuth<
     emailAndPassword: {
       enabled: true,
     },
+    account: {
+      accountLinking: {
+        trustedProviders: ["google", "apple"],
+      },
+    },
     socialProviders: {
       ...(env.GOOGLE_CLIENT_ID && env.GOOGLE_CLIENT_SECRET
         ? {
