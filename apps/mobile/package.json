@@ -59,6 +59,7 @@
     "@findgigs/prettier-config": "workspace:*",
     "@findgigs/tailwind-config": "workspace:*",
     "@findgigs/tsconfig": "workspace:*",
+    "@findgigs/validators": "workspace:*",
     "@types/jest": "^29.5.14",
     "@types/react": "catalog:react19",
     "eslint": "catalog:",
