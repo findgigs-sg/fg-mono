@@ -246,6 +246,9 @@ importers:
       '@findgigs/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/typescript
+      '@findgigs/validators':
+        specifier: workspace:*
+        version: link:../../packages/validators
       '@types/jest':
         specifier: ^29.5.14
         version: 29.5.14
