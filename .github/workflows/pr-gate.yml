@@ -77,12 +77,19 @@ jobs:
       # DATABASE_URL in .env.example points at localhost:5432/findgigs,
       # so the test runner reaches this container via the runner's
       # localhost once the health check passes.
+      #
+      # POSTGRES_HOST_AUTH_METHOD=trust means the container accepts
+      # any password for the postgres user, so the password embedded
+      # in .env.example's DATABASE_URL is ignored. This avoids
+      # hardcoding a password in the workflow (which GitGuardian
+      # would flag) while keeping the local + CI connection strings
+      # identical.
       postgres:
         image: postgres:latest
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
           POSTGRES_DB: findgigs
+          POSTGRES_HOST_AUTH_METHOD: trust
         ports:
           - 5432:5432
         options: >-
