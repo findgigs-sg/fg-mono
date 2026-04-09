@@ -53,26 +53,28 @@ export default function RoleSelectScreen() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
-  const setRoleMutation = useMutation(trpc.profile.setRole.mutationOptions());
+  const setRoleMutation = useMutation({
+    ...trpc.profile.setRole.mutationOptions(),
+    // Callbacks live on the useMutation options (not the mutate() call) so
+    // onSuccess can be async. The mutate(variables, opts) callback slot is
+    // typed as () => void, which breaks the no-misused-promises lint rule
+    // when combined with an async callback.
+    onSuccess: async (_data, variables) => {
+      await queryClient.invalidateQueries({
+        queryKey: trpc.profile.getMyProfile.queryKey(),
+      });
+      router.replace(
+        variables.role === "worker" ? "/worker-profile" : "/employer-profile",
+      );
+    },
+    onError: (error) => {
+      Alert.alert("Error", error.message || "Something went wrong");
+    },
+  });
 
   const onContinue = () => {
     if (!selectedRole) return;
-    setRoleMutation.mutate(
-      { role: selectedRole },
-      {
-        onSuccess: async () => {
-          await queryClient.invalidateQueries({
-            queryKey: trpc.profile.getMyProfile.queryKey(),
-          });
-          router.replace(
-            selectedRole === "worker" ? "/worker-profile" : "/employer-profile",
-          );
-        },
-        onError: (error) => {
-          Alert.alert("Error", error.message || "Something went wrong");
-        },
-      },
-    );
+    setRoleMutation.mutate({ role: selectedRole });
   };
 
   const continueDisabled = !selectedRole || setRoleMutation.isPending;

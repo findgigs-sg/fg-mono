@@ -93,6 +93,12 @@ export const profileRouter = {
         .insert(Profile)
         .values({ userId, role: input.role })
         .returning();
+      if (!created) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Failed to create profile.",
+        });
+      }
       return created;
     }),
 

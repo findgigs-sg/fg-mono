@@ -54,6 +54,12 @@ export const venueRouter = {
           .insert(Venue)
           .values({ employerUserId: userId, ...input })
           .returning();
+        if (!venue) {
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Failed to create venue.",
+          });
+        }
 
         if (!profile.onboardingComplete) {
           await tx
