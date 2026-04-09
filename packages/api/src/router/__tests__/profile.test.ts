@@ -24,14 +24,14 @@ describe("profile router", () => {
         role: "worker",
         onboardingComplete: false,
       });
-      expect(profile?.id).toBeDefined();
+      expect(profile!.id).toBeDefined();
     });
 
     it("is idempotent when called twice with the same role", async () => {
       const first = await caller.profile.setRole({ role: "employer" });
       const second = await caller.profile.setRole({ role: "employer" });
-      expect(second?.id).toBe(first?.id);
-      expect(second?.role).toBe("employer");
+      expect(second!.id).toBe(first!.id);
+      expect(second!.role).toBe("employer");
     });
 
     it("throws CONFLICT when called with a different role", async () => {
