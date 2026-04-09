@@ -72,6 +72,31 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    services:
+      # Matches the local docker-compose.yml findgigs-db service.
+      # DATABASE_URL in .env.example points at localhost:5432/findgigs,
+      # so the test runner reaches this container via the runner's
+      # localhost once the health check passes.
+      #
+      # POSTGRES_HOST_AUTH_METHOD=trust means the container accepts
+      # any password for the postgres user, so the password embedded
+      # in .env.example's DATABASE_URL is ignored. This avoids
+      # hardcoding a password in the workflow (which GitGuardian
+      # would flag) while keeping the local + CI connection strings
+      # identical.
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: findgigs
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - uses: actions/checkout@v5
 
@@ -81,6 +106,9 @@ jobs:
       - name: Copy env
         shell: bash
         run: cp .env.example .env
+
+      - name: Push DB schema
+        run: pnpm -F @findgigs/db push
 
       - name: Test
         run: pnpm test
