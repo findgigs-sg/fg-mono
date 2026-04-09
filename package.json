@@ -16,6 +16,7 @@
     "db:push": "turbo -F @findgigs/db push",
     "db:studio": "turbo -F @findgigs/db studio",
     "dev": "turbo watch dev --continue",
+    "dev:tailscale": "REACT_NATIVE_PACKAGER_HOSTNAME=$(tailscale ip --4 | head -n1) turbo watch dev --continue",
     "dev:tunnel": "bash scripts/dev-tunnel.sh",
     "tunnel": "bash scripts/tunnel.sh",
     "tunnel:stop": "tailscale funnel --https=3001 off",
