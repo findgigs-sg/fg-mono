@@ -72,6 +72,24 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    services:
+      # Matches the local docker-compose.yml findgigs-db service.
+      # DATABASE_URL in .env.example points at localhost:5432/findgigs,
+      # so the test runner reaches this container via the runner's
+      # localhost once the health check passes.
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: findgigs
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - uses: actions/checkout@v5
 
@@ -81,6 +99,9 @@ jobs:
       - name: Copy env
         shell: bash
         run: cp .env.example .env
+
+      - name: Push DB schema
+        run: pnpm -F @findgigs/db push
 
       - name: Test
         run: pnpm test
