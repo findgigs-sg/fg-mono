@@ -7,6 +7,20 @@ import { cva } from "class-variance-authority";
 
 import { cn } from "~/lib/utils";
 
+/**
+ * Maps a Tailwind font-weight class (or its absence) to the matching
+ * Inter font-family variant loaded in `_layout.tsx`. NativeWind v5 preview
+ * + react-native ignore `font-weight` for custom font families on iOS, so
+ * we set the font family explicitly per weight.
+ */
+function interFontFamilyForClassName(className: string): string {
+  if (/\bfont-extrabold\b/.test(className)) return "Inter_800ExtraBold";
+  if (/\bfont-bold\b/.test(className)) return "Inter_700Bold";
+  if (/\bfont-semibold\b/.test(className)) return "Inter_600SemiBold";
+  if (/\bfont-medium\b/.test(className)) return "Inter_500Medium";
+  return "Inter_400Regular";
+}
+
 const textVariants = cva(
   cn(
     "text-foreground text-base",
@@ -77,6 +91,7 @@ function Text({
   className,
   asChild = false,
   variant = "default",
+  style,
   ...props
 }: React.ComponentProps<typeof RNText> &
   TextVariantProps & {
@@ -84,9 +99,12 @@ function Text({
   }) {
   const textClass = React.useContext(TextClassContext);
   const Component = asChild ? Slot.Text : RNText;
+  const merged = cn(textVariants({ variant }), textClass, className);
+  const fontFamily = interFontFamilyForClassName(merged);
   return (
     <Component
-      className={cn(textVariants({ variant }), textClass, className)}
+      className={merged}
+      style={[{ fontFamily }, style]}
       role={variant ? ROLE[variant] : undefined}
       aria-level={variant ? ARIA_LEVEL[variant] : undefined}
       {...props}
