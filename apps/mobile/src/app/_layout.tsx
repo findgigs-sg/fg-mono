@@ -20,6 +20,10 @@ import "../styles.css";
 
 void SplashScreen.preventAutoHideAsync();
 
+// Matches the file at apps/mobile/src/app/role-select.tsx.
+// If that file is renamed or moved into a group, update this constant.
+const ROLE_SELECT_SEGMENT = "role-select";
+
 function AuthGuard({ children }: { children: React.ReactNode }) {
   const { data: session, isPending: sessionPending } = authClient.useSession();
   const { data: profileData, isPending: profilePending } = useQuery({
@@ -33,7 +37,7 @@ function AuthGuard({ children }: { children: React.ReactNode }) {
     if (sessionPending) return;
 
     const inAuthGroup = segments[0] === "(auth)";
-    const inRoleSelect = segments[0] === "role-select";
+    const inRoleSelect = segments[0] === ROLE_SELECT_SEGMENT;
 
     // Rule 1: no session → go to signup
     if (!session && !inAuthGroup) {

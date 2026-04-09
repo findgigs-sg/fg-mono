@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Alert, Pressable, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Stack, useRouter } from "expo-router";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
@@ -51,6 +51,7 @@ function RoleCard({ role, selected, onPress }: RoleCardProps) {
 
 export default function RoleSelectScreen() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
   const setRoleMutation = useMutation(trpc.profile.setRole.mutationOptions());
 
@@ -59,7 +60,10 @@ export default function RoleSelectScreen() {
     setRoleMutation.mutate(
       { role: selectedRole },
       {
-        onSuccess: () => {
+        onSuccess: async () => {
+          await queryClient.invalidateQueries({
+            queryKey: trpc.profile.getMyProfile.queryKey(),
+          });
           router.replace(
             selectedRole === "worker" ? "/worker-profile" : "/employer-profile",
           );
