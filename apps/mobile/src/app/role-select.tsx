@@ -96,12 +96,18 @@ export default function RoleSelectScreen() {
           <RoleCard
             role="worker"
             selected={selectedRole === "worker"}
-            onPress={() => setSelectedRole("worker")}
+            onPress={() => {
+              if (setRoleMutation.isPending) return;
+              setSelectedRole("worker");
+            }}
           />
           <RoleCard
             role="employer"
             selected={selectedRole === "employer"}
-            onPress={() => setSelectedRole("employer")}
+            onPress={() => {
+              if (setRoleMutation.isPending) return;
+              setSelectedRole("employer");
+            }}
           />
         </View>
 
