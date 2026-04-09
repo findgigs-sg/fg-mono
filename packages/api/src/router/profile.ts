@@ -108,7 +108,7 @@ export const profileRouter = {
       const profile = await ctx.db.query.Profile.findFirst({
         where: eq(Profile.userId, userId),
       });
-      if (!profile || profile.role !== "worker") {
+      if (profile?.role !== "worker") {
         throw new TRPCError({
           code: "BAD_REQUEST",
           message: "You must select the worker role first.",
@@ -169,7 +169,7 @@ export const profileRouter = {
       const profile = await ctx.db.query.Profile.findFirst({
         where: eq(Profile.userId, userId),
       });
-      if (!profile || profile.role !== "employer") {
+      if (profile?.role !== "employer") {
         throw new TRPCError({
           code: "BAD_REQUEST",
           message: "You must select the employer role first.",

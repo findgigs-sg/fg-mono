@@ -19,19 +19,23 @@ describe("profile router", () => {
   describe("setRole", () => {
     it("creates a new profile with the given role", async () => {
       const profile = await caller.profile.setRole({ role: "worker" });
+      if (!profile) throw new Error("expected setRole to return a profile");
       expect(profile).toMatchObject({
         userId: testUserId,
         role: "worker",
         onboardingComplete: false,
       });
-      expect(profile!.id).toBeDefined();
+      expect(profile.id).toBeDefined();
     });
 
     it("is idempotent when called twice with the same role", async () => {
       const first = await caller.profile.setRole({ role: "employer" });
       const second = await caller.profile.setRole({ role: "employer" });
-      expect(second!.id).toBe(first!.id);
-      expect(second!.role).toBe("employer");
+      if (!first || !second) {
+        throw new Error("expected both setRole calls to return a profile");
+      }
+      expect(second.id).toBe(first.id);
+      expect(second.role).toBe("employer");
     });
 
     it("throws CONFLICT when called with a different role", async () => {

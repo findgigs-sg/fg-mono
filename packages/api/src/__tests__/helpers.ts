@@ -7,11 +7,22 @@ import { user } from "@findgigs/db/schema";
 import { appRouter } from "../root";
 
 /**
+ * The tRPC caller type, derived from the app router. Named explicitly so
+ * the inferred return type of `createTestUser` doesn't leak @trpc/server's
+ * internal `unstable-core-do-not-import` module path into emitted .d.ts
+ * files (which would trip TS2742).
+ */
+type TestCaller = ReturnType<typeof appRouter.createCaller>;
+
+/**
  * Inserts a fresh user with a `test-<uuid>` id and returns a tRPC caller
  * whose session is scoped to that user. Cleanup is the caller's
  * responsibility — call `cleanupTestUser(userId)` in `afterEach`.
  */
-export async function createTestUser() {
+export async function createTestUser(): Promise<{
+  userId: string;
+  caller: TestCaller;
+}> {
   const userId = `test-${randomUUID()}`;
   const now = new Date();
 

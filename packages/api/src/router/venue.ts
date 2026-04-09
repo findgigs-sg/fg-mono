@@ -32,7 +32,7 @@ export const venueRouter = {
       const profile = await ctx.db.query.Profile.findFirst({
         where: eq(Profile.userId, userId),
       });
-      if (!profile || profile.role !== "employer") {
+      if (profile?.role !== "employer") {
         throw new TRPCError({
           code: "BAD_REQUEST",
           message: "Only employers can create venues.",
