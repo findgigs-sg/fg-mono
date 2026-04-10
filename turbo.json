@@ -36,6 +36,9 @@
     "//#clean": {
       "cache": false
     },
+    "seed": {
+      "cache": false
+    },
     "generate": {
       "cache": false
     },
