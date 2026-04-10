@@ -14,6 +14,7 @@
     "db:generate": "turbo -F @findgigs/db generate",
     "db:migrate": "turbo -F @findgigs/db migrate",
     "db:push": "turbo -F @findgigs/db push",
+    "db:seed": "turbo -F @findgigs/db seed",
     "db:studio": "turbo -F @findgigs/db studio",
     "dev": "turbo watch dev --continue",
     "dev:tailscale": "REACT_NATIVE_PACKAGER_HOSTNAME=$(tailscale ip --4 | head -n1) turbo watch dev --continue",
