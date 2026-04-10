@@ -85,7 +85,7 @@ describe("storage router", () => {
       await expect(caller.storage.getAvatarUploadUrl()).rejects.toMatchObject({
         code: "INTERNAL_SERVER_ERROR",
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        message: expect.stringContaining("boom"),
+        message: expect.stringContaining("Failed to generate upload link."),
       });
     });
 

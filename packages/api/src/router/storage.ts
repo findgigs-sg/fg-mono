@@ -29,9 +29,10 @@ export const storageRouter = {
       .createSignedUploadUrl(path, { upsert: true });
 
     if (error) {
+      console.error("[storage.getAvatarUploadUrl] Supabase error:", error);
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
-        message: `Failed to create upload URL: ${error.message}`,
+        message: "Failed to generate upload link.",
       });
     }
 
