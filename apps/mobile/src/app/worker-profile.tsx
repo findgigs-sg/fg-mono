@@ -106,7 +106,7 @@ export default function WorkerProfileScreen() {
               onPublicUrl={(url) =>
                 form.setFieldValue("photoUrl", url ?? undefined)
               }
-              getUploadUrl={() => getAvatarUploadUrlMutation.mutateAsync()}
+              getUploadUrl={({ contentType, contentLength }) => getAvatarUploadUrlMutation.mutateAsync({ contentType, contentLength })}
             />
 
             {/* Full Name */}
@@ -324,7 +324,7 @@ interface PhotoPickerProps {
   onStatusChange: (status: PhotoStatus) => void;
   onLocalUriChange: (uri: string | null) => void;
   onPublicUrl: (url: string | null) => void;
-  getUploadUrl: () => Promise<{
+  getUploadUrl: (params: { contentType: "image/jpeg", contentLength: number }) => Promise<{
     uploadUrl: string;
     token: string;
     path: string;
@@ -391,12 +391,16 @@ function PhotoPicker({
         { compress: 0.8, format: SaveFormat.JPEG },
       );
 
-      // 2. Request signed upload URL
-      const { uploadUrl, publicUrl } = await getUploadUrl();
-
-      // 3. Read compressed file bytes and PUT to signed URL
+      // 2. Read compressed file bytes and PUT to signed URL
       const fileResponse = await fetch(manipulated.uri);
       const blob = await fileResponse.blob();
+
+      // 3. Request signed upload URL
+      const { uploadUrl, publicUrl } = await getUploadUrl({
+        contentType: "image/jpeg",
+        contentLength: blob.size,
+      });
+
       const uploadResponse = await fetch(uploadUrl, {
         method: "PUT",
         headers: { "Content-Type": "image/jpeg" },

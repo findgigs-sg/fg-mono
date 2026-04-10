@@ -1,6 +1,7 @@
 import type { TRPCRouterRecord } from "@trpc/server";
 import { createClient } from "@supabase/supabase-js";
 import { TRPCError } from "@trpc/server";
+import { z } from "zod";
 
 import { env } from "../env";
 import { protectedProcedure } from "../trpc";
@@ -18,7 +19,14 @@ function getSupabase(): SupabaseClient {
 }
 
 export const storageRouter = {
-  getAvatarUploadUrl: protectedProcedure.mutation(async ({ ctx }) => {
+  getAvatarUploadUrl: protectedProcedure
+    .input(
+      z.object({
+        contentType: z.literal("image/jpeg"),
+        contentLength: z.number().max(5 * 1024 * 1024, "File size must be under 5MB"),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
     const path = `${userId}.jpg`;
     const bucket = env.SUPABASE_AVATAR_BUCKET;
