@@ -1,7 +1,7 @@
 import type { TRPCRouterRecord } from "@trpc/server";
 import { createClient } from "@supabase/supabase-js";
 import { TRPCError } from "@trpc/server";
-import { z } from "zod";
+import { z } from "zod/v4";
 
 import { env } from "../env";
 import { protectedProcedure } from "../trpc";
@@ -23,36 +23,38 @@ export const storageRouter = {
     .input(
       z.object({
         contentType: z.literal("image/jpeg"),
-        contentLength: z.number().max(5 * 1024 * 1024, "File size must be under 5MB"),
-      })
+        contentLength: z
+          .number()
+          .max(5 * 1024 * 1024, "File size must be under 5MB"),
+      }),
     )
-    .mutation(async ({ ctx, input }) => {
-    const userId = ctx.session.user.id;
-    const path = `${userId}.jpg`;
-    const bucket = env.SUPABASE_AVATAR_BUCKET;
+    .mutation(async ({ ctx }) => {
+      const userId = ctx.session.user.id;
+      const path = `${userId}.jpg`;
+      const bucket = env.SUPABASE_AVATAR_BUCKET;
 
-    const supabase = getSupabase();
-    const { data, error } = await supabase.storage
-      .from(bucket)
-      .createSignedUploadUrl(path, { upsert: true });
+      const supabase = getSupabase();
+      const { data, error } = await supabase.storage
+        .from(bucket)
+        .createSignedUploadUrl(path, { upsert: true });
 
-    if (error) {
-      console.error("[storage.getAvatarUploadUrl] Supabase error:", error);
-      throw new TRPCError({
-        code: "INTERNAL_SERVER_ERROR",
-        message: "Failed to generate upload link.",
-      });
-    }
+      if (error) {
+        console.error("[storage.getAvatarUploadUrl] Supabase error:", error);
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Failed to generate upload link.",
+        });
+      }
 
-    const { data: publicUrlData } = supabase.storage
-      .from(bucket)
-      .getPublicUrl(path);
+      const { data: publicUrlData } = supabase.storage
+        .from(bucket)
+        .getPublicUrl(path);
 
-    return {
-      uploadUrl: data.signedUrl,
-      token: data.token,
-      path: data.path,
-      publicUrl: publicUrlData.publicUrl,
-    };
-  }),
+      return {
+        uploadUrl: data.signedUrl,
+        token: data.token,
+        path: data.path,
+        publicUrl: publicUrlData.publicUrl,
+      };
+    }),
 } satisfies TRPCRouterRecord;

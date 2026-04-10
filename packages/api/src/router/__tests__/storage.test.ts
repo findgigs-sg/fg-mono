@@ -48,7 +48,10 @@ describe("storage router", () => {
 
   describe("getAvatarUploadUrl", () => {
     it("returns a signed upload URL scoped to the authenticated user", async () => {
-      const result = await caller.storage.getAvatarUploadUrl();
+      const result = await caller.storage.getAvatarUploadUrl({
+        contentType: "image/jpeg",
+        contentLength: 12345,
+      });
 
       expect(result).toEqual({
         uploadUrl: `https://mock.supabase.co/upload/${testUserId}.jpg?token=abc`,
@@ -59,7 +62,10 @@ describe("storage router", () => {
     });
 
     it("calls createSignedUploadUrl with the user-scoped path", async () => {
-      await caller.storage.getAvatarUploadUrl();
+      await caller.storage.getAvatarUploadUrl({
+        contentType: "image/jpeg",
+        contentLength: 12345,
+      });
 
       expect(createSignedUploadUrlMock).toHaveBeenCalledWith(
         `${testUserId}.jpg`,
@@ -68,7 +74,10 @@ describe("storage router", () => {
     });
 
     it("passes { upsert: true } so repeated uploads don't error", async () => {
-      await caller.storage.getAvatarUploadUrl();
+      await caller.storage.getAvatarUploadUrl({
+        contentType: "image/jpeg",
+        contentLength: 12345,
+      });
 
       expect(createSignedUploadUrlMock).toHaveBeenCalledWith(
         expect.any(String),
@@ -82,7 +91,12 @@ describe("storage router", () => {
         error: { message: "boom", name: "StorageError" },
       });
 
-      await expect(caller.storage.getAvatarUploadUrl()).rejects.toMatchObject({
+      await expect(
+        caller.storage.getAvatarUploadUrl({
+          contentType: "image/jpeg",
+          contentLength: 12345,
+        }),
+      ).rejects.toMatchObject({
         code: "INTERNAL_SERVER_ERROR",
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         message: expect.stringContaining("Failed to generate upload link."),
@@ -99,7 +113,10 @@ describe("storage router", () => {
       } as never);
 
       await expect(
-        unauthCaller.storage.getAvatarUploadUrl(),
+        unauthCaller.storage.getAvatarUploadUrl({
+          contentType: "image/jpeg",
+          contentLength: 12345,
+        }),
       ).rejects.toMatchObject({ code: "UNAUTHORIZED" });
     });
   });
