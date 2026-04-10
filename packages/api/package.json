@@ -22,6 +22,7 @@
     "@findgigs/auth": "workspace:*",
     "@findgigs/db": "workspace:*",
     "@findgigs/validators": "workspace:*",
+    "@t3-oss/env-core": "^0.13.11",
     "@trpc/server": "catalog:",
     "superjson": "2.2.3",
     "zod": "catalog:"
