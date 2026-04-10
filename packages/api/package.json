@@ -23,7 +23,7 @@
     "@findgigs/db": "workspace:*",
     "@findgigs/validators": "workspace:*",
     "@supabase/supabase-js": "^2.49.0",
-    "@t3-oss/env-core": "^0.13.11",
+    "@t3-oss/env-core": "^0.13.8",
     "@trpc/server": "catalog:",
     "superjson": "2.2.3",
     "zod": "catalog:"
