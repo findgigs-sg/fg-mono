@@ -55,5 +55,14 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         },
       },
     ],
+    [
+      "expo-image-picker",
+      {
+        photosPermission:
+          "FindGigs needs access to your photos so you can upload a profile picture.",
+        cameraPermission:
+          "FindGigs needs access to your camera so you can take a profile picture.",
+      },
+    ],
   ],
 });

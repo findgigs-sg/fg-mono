@@ -95,6 +95,36 @@ pnpm dev
 
 This starts the web app (port 3001) and the Expo dev server concurrently.
 
+### 7. One-time Supabase Storage setup
+
+FIN-9 (worker profile photo upload) requires a Supabase Storage bucket. Do this once per Supabase project:
+
+1. **Create the `avatars` bucket.** In the Supabase dashboard → Storage → New bucket:
+   - Name: `avatars`
+   - Public: ✅ (avatars are shown to employers, no need for signed read URLs)
+   - File size limit: `5 MB`
+   - Allowed MIME types: `image/jpeg`
+   - No RLS policies needed — the bucket is public and server writes use the service role key.
+
+2. **Copy credentials into your local `.env`:**
+
+   ```dotenv
+   SUPABASE_URL="https://<your-project-ref>.supabase.co"
+   SUPABASE_SERVICE_ROLE_KEY="<your-service-role-key>"
+   SUPABASE_AVATAR_BUCKET="avatars"
+   ```
+
+   Find `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` in Supabase dashboard → Project Settings → API.
+
+3. **For production**, add the same vars to Vercel:
+   ```bash
+   vercel env add SUPABASE_URL
+   vercel env add SUPABASE_SERVICE_ROLE_KEY
+   vercel env add SUPABASE_AVATAR_BUCKET
+   ```
+
+Tests in CI do NOT need real Supabase credentials — the `.env.example` ships placeholder values that pass schema validation, and `@supabase/supabase-js` is mocked at the vitest level in `storage.test.ts`.
+
 ## Database Migrations
 
 Schema is defined in `packages/db/src/schema.ts`. Auth schema is auto-generated in `packages/db/src/auth-schema.ts` — don't edit it manually.

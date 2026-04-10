@@ -110,5 +110,8 @@ jobs:
       - name: Push DB schema
         run: pnpm -F @findgigs/db push
 
+      - name: Seed DB
+        run: pnpm db:seed
+
       - name: Test
         run: pnpm test

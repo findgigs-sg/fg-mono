@@ -36,6 +36,9 @@
     "//#clean": {
       "cache": false
     },
+    "seed": {
+      "cache": false
+    },
     "generate": {
       "cache": false
     },
@@ -65,11 +68,15 @@
     "GOOGLE_CLIENT_SECRET",
     "APPLE_CLIENT_ID",
     "APPLE_CLIENT_SECRET",
-    "APPLE_APP_BUNDLE_ID"
+    "APPLE_APP_BUNDLE_ID",
+    "SUPABASE_URL",
+    "SUPABASE_SERVICE_ROLE_KEY",
+    "SUPABASE_AVATAR_BUCKET"
   ],
   "globalPassThroughEnv": [
     "NODE_ENV",
     "CI",
+    "SKIP_ENV_VALIDATION",
     "VERCEL",
     "VERCEL_ENV",
     "VERCEL_URL",

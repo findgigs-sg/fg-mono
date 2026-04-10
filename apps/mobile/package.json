@@ -33,6 +33,8 @@
     "expo": "~55.0.11",
     "expo-constants": "~55.0.11",
     "expo-dev-client": "~55.0.22",
+    "expo-image-manipulator": "~55.0.15",
+    "expo-image-picker": "~55.0.18",
     "expo-linking": "~55.0.11",
     "expo-router": "~55.0.10",
     "expo-secure-store": "~55.0.11",
