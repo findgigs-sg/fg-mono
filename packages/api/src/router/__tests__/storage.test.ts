@@ -27,7 +27,7 @@ describe("storage router", () => {
     caller = fixture.caller;
 
     // Default happy-path mock. Individual tests can override.
-    createSignedUploadUrlMock.mockImplementation(async (path: string) => ({
+    createSignedUploadUrlMock.mockImplementation((path: string) => ({
       data: {
         signedUrl: `https://mock.supabase.co/upload/${path}?token=abc`,
         token: "abc",
@@ -84,6 +84,7 @@ describe("storage router", () => {
 
       await expect(caller.storage.getAvatarUploadUrl()).rejects.toMatchObject({
         code: "INTERNAL_SERVER_ERROR",
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         message: expect.stringContaining("boom"),
       });
     });

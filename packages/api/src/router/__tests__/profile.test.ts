@@ -186,7 +186,7 @@ describe("profile router", () => {
         caller.profile.completeWorkerProfile({
           fullName: "Jane Doe",
           phone: "+6512345678",
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
           jobCategories: ["nonexistent-slug" as any],
         }),
       ).rejects.toMatchObject({ code: "BAD_REQUEST" });

@@ -9,13 +9,11 @@ type SupabaseClient = ReturnType<typeof createClient>;
 let supabaseClient: SupabaseClient | null = null;
 
 function getSupabase(): SupabaseClient {
-  if (!supabaseClient) {
-    supabaseClient = createClient(
-      env.SUPABASE_URL ?? "",
-      env.SUPABASE_SERVICE_ROLE_KEY ?? "",
-      { auth: { persistSession: false } },
-    );
-  }
+  supabaseClient ??= createClient(
+    env.SUPABASE_URL ?? "",
+    env.SUPABASE_SERVICE_ROLE_KEY ?? "",
+    { auth: { persistSession: false } },
+  );
   return supabaseClient;
 }
 
@@ -30,10 +28,10 @@ export const storageRouter = {
       .from(bucket)
       .createSignedUploadUrl(path, { upsert: true });
 
-    if (error || !data) {
+    if (error) {
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
-        message: `Failed to create upload URL: ${error?.message ?? "unknown error"}`,
+        message: `Failed to create upload URL: ${error.message}`,
       });
     }
 

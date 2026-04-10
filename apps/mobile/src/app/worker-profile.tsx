@@ -61,7 +61,7 @@ export default function WorkerProfileScreen() {
     },
     validators: {
       // Cast needed: Zod's optional() emits `bio?:` but TanStack Form expects `bio: T | undefined`
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
       onChange: WorkerProfileSchema as any,
     },
     onSubmit: ({ value }) => {
@@ -304,7 +304,7 @@ function LabeledField({
       )}
       {hasError && (
         <Text className="text-destructive text-xs">
-          {String(errors[0] ?? "")}
+          {typeof errors[0] === "string" ? errors[0] : "Invalid value"}
         </Text>
       )}
     </View>
