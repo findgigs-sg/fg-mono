@@ -24,6 +24,10 @@ void SplashScreen.preventAutoHideAsync();
 // If that file is renamed or moved into a group, update this constant.
 const ROLE_SELECT_SEGMENT = "role-select";
 
+// Matches the file at apps/mobile/src/app/worker-profile.tsx.
+// If that file is renamed or moved into a group, update this constant.
+const WORKER_PROFILE_SEGMENT = "worker-profile";
+
 function AuthGuard({ children }: { children: React.ReactNode }) {
   const { data: session, isPending: sessionPending } = authClient.useSession();
   const { data: profileData, isPending: profilePending } = useQuery({
@@ -38,6 +42,7 @@ function AuthGuard({ children }: { children: React.ReactNode }) {
 
     const inAuthGroup = segments[0] === "(auth)";
     const inRoleSelect = segments[0] === ROLE_SELECT_SEGMENT;
+    const inWorkerProfile = segments[0] === WORKER_PROFILE_SEGMENT;
 
     // Rule 1: no session → go to signup
     if (!session && !inAuthGroup) {
@@ -64,6 +69,21 @@ function AuthGuard({ children }: { children: React.ReactNode }) {
       !inRoleSelect
     ) {
       router.replace("/role-select");
+      return;
+    }
+
+    // Rule 4 (FIN-9): session, worker profile exists, but onboarding
+    // not yet complete → send them to the worker profile creation form.
+    // Same fail-open stance as rule 3 — only redirect when profileData
+    // has resolved.
+    if (
+      session &&
+      !profilePending &&
+      profileData?.profile?.role === "worker" &&
+      !profileData.profile.onboardingComplete &&
+      !inWorkerProfile
+    ) {
+      router.replace("/worker-profile");
       return;
     }
   }, [session, sessionPending, profileData, profilePending, segments, router]);
