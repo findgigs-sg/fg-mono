@@ -2,6 +2,7 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
+  Pressable,
   ScrollView,
   TextInput,
   View,
@@ -12,7 +13,7 @@ import { useForm } from "@tanstack/react-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import type { JobCategorySlug } from "@findgigs/validators";
-import { WorkerProfileSchema } from "@findgigs/validators";
+import { JOB_CATEGORIES, WorkerProfileSchema } from "@findgigs/validators";
 
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
@@ -42,8 +43,7 @@ export default function WorkerProfileScreen() {
       phone: "",
       bio: "" as string | undefined,
       photoUrl: undefined as string | undefined,
-      // Hardcoded placeholder for scaffold — replaced by CategoryChips in Task 10
-      jobCategories: ["events"] as JobCategorySlug[],
+      jobCategories: [] as JobCategorySlug[],
     },
     validators: {
       // Cast needed: Zod's optional() emits `bio?:` but TanStack Form expects `bio: T | undefined`
@@ -127,16 +127,15 @@ export default function WorkerProfileScreen() {
               )}
             </form.Field>
 
-            {/* Placeholder for chips — Task 10 replaces this */}
-            <View className="gap-2">
-              <Text className="text-foreground text-sm font-medium">
-                Job categories (scaffold — placeholder)
-              </Text>
-              <Text className="text-muted-foreground text-xs">
-                Currently hardcoded to ["events"]. Task 10 replaces this with a
-                tappable chip grid.
-              </Text>
-            </View>
+            <form.Field name="jobCategories">
+              {(field) => (
+                <CategoryChips
+                  value={field.state.value}
+                  onChange={field.handleChange}
+                  errors={field.state.meta.errors}
+                />
+              )}
+            </form.Field>
 
             {/* Submit button */}
             <form.Subscribe
@@ -181,6 +180,66 @@ interface LabeledFieldProps {
   maxLength?: number;
   counter?: boolean;
   errors: readonly unknown[];
+}
+
+// ---------------------------------------------------------------------------
+// CategoryChips — multi-select chip grid, source of truth is JOB_CATEGORIES
+// from @findgigs/validators (same constant the seed script uses).
+// ---------------------------------------------------------------------------
+
+interface CategoryChipsProps {
+  value: JobCategorySlug[];
+  onChange: (next: JobCategorySlug[]) => void;
+  errors: readonly unknown[];
+}
+
+function CategoryChips({ value, onChange, errors }: CategoryChipsProps) {
+  const selected = new Set(value);
+  const hasError = errors.length > 0;
+
+  return (
+    <View className="gap-3">
+      <Text className="text-foreground text-sm font-medium">
+        What kind of work interests you?
+      </Text>
+      <View className="flex-row flex-wrap gap-2">
+        {JOB_CATEGORIES.map((cat) => {
+          const isSelected = selected.has(cat.slug);
+          return (
+            <Pressable
+              key={cat.slug}
+              onPress={() => {
+                const next = new Set(selected);
+                if (isSelected) next.delete(cat.slug);
+                else next.add(cat.slug);
+                onChange(Array.from(next));
+              }}
+              className={cn(
+                "rounded-full border px-4 py-2",
+                isSelected
+                  ? "border-primary bg-accent"
+                  : "border-border bg-card",
+              )}
+            >
+              <Text
+                className={cn(
+                  "text-sm font-medium",
+                  isSelected ? "text-primary" : "text-foreground",
+                )}
+              >
+                {cat.label}
+              </Text>
+            </Pressable>
+          );
+        })}
+      </View>
+      {hasError && (
+        <Text className="text-destructive text-xs">
+          Select at least one job category
+        </Text>
+      )}
+    </View>
+  );
 }
 
 function LabeledField({
