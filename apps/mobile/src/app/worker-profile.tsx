@@ -106,7 +106,12 @@ export default function WorkerProfileScreen() {
               onPublicUrl={(url) =>
                 form.setFieldValue("photoUrl", url ?? undefined)
               }
-              getUploadUrl={({ contentType, contentLength }) => getAvatarUploadUrlMutation.mutateAsync({ contentType, contentLength })}
+              getUploadUrl={({ contentType, contentLength }) =>
+                getAvatarUploadUrlMutation.mutateAsync({
+                  contentType,
+                  contentLength,
+                })
+              }
             />
 
             {/* Full Name */}
@@ -324,7 +329,10 @@ interface PhotoPickerProps {
   onStatusChange: (status: PhotoStatus) => void;
   onLocalUriChange: (uri: string | null) => void;
   onPublicUrl: (url: string | null) => void;
-  getUploadUrl: (params: { contentType: "image/jpeg", contentLength: number }) => Promise<{
+  getUploadUrl: (params: {
+    contentType: "image/jpeg";
+    contentLength: number;
+  }) => Promise<{
     uploadUrl: string;
     token: string;
     path: string;
