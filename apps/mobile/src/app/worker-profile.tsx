@@ -340,6 +340,25 @@ function PhotoPicker({
   onPublicUrl,
   getUploadUrl,
 }: PhotoPickerProps) {
+  const pickFromCamera = async () => {
+    const perm = await ImagePicker.requestCameraPermissionsAsync();
+    if (!perm.granted) {
+      Alert.alert(
+        "Camera permission needed",
+        "Grant camera access to take a profile photo.",
+      );
+      return;
+    }
+    const result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+    if (result.canceled) return;
+    const asset = result.assets[0];
+    if (asset) await onAsset(asset.uri);
+  };
+
   const pickFromLibrary = async () => {
     const perm = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!perm.granted) {
@@ -402,15 +421,17 @@ function PhotoPicker({
     if (Platform.OS === "ios") {
       ActionSheetIOS.showActionSheetWithOptions(
         {
-          options: ["Choose from Library", "Cancel"],
-          cancelButtonIndex: 1,
+          options: ["Take Photo", "Choose from Library", "Cancel"],
+          cancelButtonIndex: 2,
         },
         (index) => {
-          if (index === 0) void pickFromLibrary();
+          if (index === 0) void pickFromCamera();
+          if (index === 1) void pickFromLibrary();
         },
       );
     } else {
       Alert.alert("Add Profile Photo", undefined, [
+        { text: "Take Photo", onPress: () => void pickFromCamera() },
         { text: "Choose from Library", onPress: () => void pickFromLibrary() },
         { text: "Cancel", style: "cancel" },
       ]);
