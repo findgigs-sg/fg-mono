@@ -2,7 +2,7 @@ import type { TRPCRouterRecord } from "@trpc/server";
 import { createClient } from "@supabase/supabase-js";
 import { TRPCError } from "@trpc/server";
 
-import { env } from "../../env";
+import { env } from "../env";
 import { protectedProcedure } from "../trpc";
 
 type SupabaseClient = ReturnType<typeof createClient>;

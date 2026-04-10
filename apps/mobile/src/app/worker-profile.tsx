@@ -1,5 +1,9 @@
+import { useState } from "react";
 import {
+  ActionSheetIOS,
+  ActivityIndicator,
   Alert,
+  Image,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -8,6 +12,8 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
+import * as ImagePicker from "expo-image-picker";
 import { Stack, useRouter } from "expo-router";
 import { useForm } from "@tanstack/react-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -23,6 +29,14 @@ import { trpc } from "~/utils/api";
 export default function WorkerProfileScreen() {
   const router = useRouter();
   const queryClient = useQueryClient();
+
+  const [photoStatus, setPhotoStatus] = useState<PhotoStatus>("idle");
+  const [photoLocalUri, setPhotoLocalUri] = useState<string | null>(null);
+  const isUploading = photoStatus === "uploading";
+
+  const getAvatarUploadUrlMutation = useMutation({
+    ...trpc.storage.getAvatarUploadUrl.mutationOptions(),
+  });
 
   const completeWorkerProfileMutation = useMutation({
     ...trpc.profile.completeWorkerProfile.mutationOptions(),
@@ -83,6 +97,17 @@ export default function WorkerProfileScreen() {
                 Help employers get to know you
               </Text>
             </View>
+
+            <PhotoPicker
+              status={photoStatus}
+              localUri={photoLocalUri}
+              onStatusChange={setPhotoStatus}
+              onLocalUriChange={setPhotoLocalUri}
+              onPublicUrl={(url) =>
+                form.setFieldValue("photoUrl", url ?? undefined)
+              }
+              getUploadUrl={() => getAvatarUploadUrlMutation.mutateAsync()}
+            />
 
             {/* Full Name */}
             <form.Field name="fullName">
@@ -147,6 +172,7 @@ export default function WorkerProfileScreen() {
                   disabled={
                     !canSubmit ||
                     isSubmitting ||
+                    isUploading ||
                     completeWorkerProfileMutation.isPending
                   }
                   onPress={() => form.handleSubmit()}
@@ -280,6 +306,169 @@ function LabeledField({
         <Text className="text-destructive text-xs">
           {String(errors[0] ?? "")}
         </Text>
+      )}
+    </View>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// PhotoPicker — single-slot avatar upload with state machine.
+// Status invariant: form.photoUrl is set only in the 'success' state.
+// ---------------------------------------------------------------------------
+
+type PhotoStatus = "idle" | "uploading" | "success" | "error";
+
+interface PhotoPickerProps {
+  status: PhotoStatus;
+  localUri: string | null;
+  onStatusChange: (status: PhotoStatus) => void;
+  onLocalUriChange: (uri: string | null) => void;
+  onPublicUrl: (url: string | null) => void;
+  getUploadUrl: () => Promise<{
+    uploadUrl: string;
+    token: string;
+    path: string;
+    publicUrl: string;
+  }>;
+}
+
+function PhotoPicker({
+  status,
+  localUri,
+  onStatusChange,
+  onLocalUriChange,
+  onPublicUrl,
+  getUploadUrl,
+}: PhotoPickerProps) {
+  const pickFromLibrary = async () => {
+    const perm = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!perm.granted) {
+      Alert.alert(
+        "Photo permission needed",
+        "Grant photo library access to add a profile photo.",
+      );
+      return;
+    }
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+    if (result.canceled) return;
+    const asset = result.assets[0];
+    if (asset) await onAsset(asset.uri);
+  };
+
+  const onAsset = async (uri: string) => {
+    onLocalUriChange(uri);
+    onStatusChange("uploading");
+
+    try {
+      // 1. Re-encode JPEG + resize to 800px
+      const manipulated = await manipulateAsync(
+        uri,
+        [{ resize: { width: 800 } }],
+        { compress: 0.8, format: SaveFormat.JPEG },
+      );
+
+      // 2. Request signed upload URL
+      const { uploadUrl, publicUrl } = await getUploadUrl();
+
+      // 3. Read compressed file bytes and PUT to signed URL
+      const fileResponse = await fetch(manipulated.uri);
+      const blob = await fileResponse.blob();
+      const uploadResponse = await fetch(uploadUrl, {
+        method: "PUT",
+        headers: { "Content-Type": "image/jpeg" },
+        body: blob,
+      });
+      if (!uploadResponse.ok) {
+        throw new Error(`Upload failed: ${uploadResponse.status}`);
+      }
+
+      // 4. Commit to form state only on success
+      onPublicUrl(publicUrl);
+      onStatusChange("success");
+    } catch (err) {
+      console.warn("[worker-profile] photo upload failed:", err);
+      onPublicUrl(null);
+      onStatusChange("error");
+    }
+  };
+
+  const showActionSheet = () => {
+    if (status === "uploading") return;
+    if (Platform.OS === "ios") {
+      ActionSheetIOS.showActionSheetWithOptions(
+        {
+          options: ["Choose from Library", "Cancel"],
+          cancelButtonIndex: 1,
+        },
+        (index) => {
+          if (index === 0) void pickFromLibrary();
+        },
+      );
+    } else {
+      Alert.alert("Add Profile Photo", undefined, [
+        { text: "Choose from Library", onPress: () => void pickFromLibrary() },
+        { text: "Cancel", style: "cancel" },
+      ]);
+    }
+  };
+
+  const removePhoto = () => {
+    onLocalUriChange(null);
+    onPublicUrl(null);
+    onStatusChange("idle");
+  };
+
+  return (
+    <View className="items-center gap-2">
+      <Pressable onPress={showActionSheet} disabled={status === "uploading"}>
+        <View className="bg-muted relative h-24 w-24 items-center justify-center overflow-hidden rounded-full">
+          {localUri ? (
+            <Image
+              source={{ uri: localUri }}
+              className="h-24 w-24 rounded-full"
+            />
+          ) : (
+            <Text className="text-4xl">📷</Text>
+          )}
+          {status === "uploading" && (
+            <View className="absolute inset-0 items-center justify-center rounded-full bg-black/40">
+              <ActivityIndicator color="white" />
+            </View>
+          )}
+          {status === "error" && (
+            <View className="bg-destructive/60 absolute inset-0 items-center justify-center rounded-full">
+              <Text className="text-xl">⚠️</Text>
+            </View>
+          )}
+        </View>
+      </Pressable>
+      {status === "idle" && (
+        <Text className="text-primary text-sm">
+          Add a photo to improve your chances
+        </Text>
+      )}
+      {status === "uploading" && (
+        <Text className="text-muted-foreground text-sm">Uploading…</Text>
+      )}
+      {status === "success" && (
+        <Pressable onPress={showActionSheet}>
+          <Text className="text-primary text-sm">Change photo</Text>
+        </Pressable>
+      )}
+      {status === "error" && (
+        <View className="flex-row gap-4">
+          <Pressable onPress={showActionSheet}>
+            <Text className="text-primary text-sm font-medium">Retry</Text>
+          </Pressable>
+          <Pressable onPress={removePhoto}>
+            <Text className="text-destructive text-sm font-medium">Remove</Text>
+          </Pressable>
+        </View>
       )}
     </View>
   );
